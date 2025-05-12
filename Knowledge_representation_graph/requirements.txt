@@ -5,6 +5,6 @@ newspaper3k
 networkx
 pyvis
 gunicorn
-
-
+lxml
+lxml-html-clean
 
