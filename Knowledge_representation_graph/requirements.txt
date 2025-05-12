@@ -7,4 +7,5 @@ pyvis
 gunicorn
 lxml
 lxml-html-clean
+PyMuPDF
 
