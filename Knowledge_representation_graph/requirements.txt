@@ -8,35 +8,3 @@ gunicorn
 
 
 
-
-@app.route('/process', methods=['POST'])
-def process():
-    input_type = request.form['input_type']
-    text = ""
-
-    if input_type == 'text':
-        text = request.form['text_input']
-    elif input_type == 'url':
-        url = request.form['url_input']
-        article = Article(url)
-        article.download()
-        article.parse()
-        text = article.text
-    elif input_type == 'pdf':
-        pdf_file = request.files['pdf_file']
-        if pdf_file:
-            pdf_path = os.path.join("uploads", pdf_file.filename)
-            pdf_file.save(pdf_path)
-            text = extract_text_from_pdf(pdf_path)
-
-    # Extract entities using spaCy
-    doc = nlp(text)
-    entities = [(ent.text, ent.label_) for ent in doc.ents]
-
-    # Generate graph and save it to static/graph.html
-    # graph_path = create_graph(entities)
-    graph_path = create_graph(text)
-
-    # Render the index.html with the entities and the graph
-    return render_template('index.html', entities=entities, graph_path=graph_path)
-
